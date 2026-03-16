@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>National University CGPA Calculator – Bangladesh</title>
+<meta name="description" content="Premium National University CGPA Calculator with retake support, fail warnings, earned credits, and full-width inputs. Fully responsive and SEO-friendly.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@3.2.2/dist/full.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+
+<!-- Top Banner -->
+<header class="relative w-full h-40 md:h-56 overflow-hidden rounded-b-3xl shadow-lg">
+  <img src="images/nu.jpg" alt="National University Banner" class="w-full h-full object-cover">
+  <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+    <h1 class="text-white text-2xl md:text-4xl font-bold">National University CGPA Calculator</h1>
+  </div>
+</header>
+
+<main class="max-w-5xl mx-auto mt-6 px-4">
+
+  <!-- AdSense Top -->
+  <div class="mb-6 p-4 bg-gray-200 text-center rounded-lg shadow-lg">Ad Space (728x90)</div>
+
+  <!-- University Selection -->
+  <div class="mb-6">
+    <select id="university" class="select select-bordered select-lg w-full bg-gray-100 border-gray-300 focus:ring-2 focus:ring-purple-500">
+      <option value="nsu">NSU – North South University</option>
+      <option value="national" selected>National University</option>
+      <option value="brac">BRAC University</option>
+      <option value="aiub">AIUB</option>
+      <option value="daffodil">Daffodil International University</option>
+      <option value="eastwest">East West University</option>
+      <option value="southeast">South East University</option>
+      <option value="stamford">Stamford University</option>
+    </select>
+  </div>
+
+  <!-- Courses Container -->
+  <div id="courses" class="space-y-4"></div>
+
+  <!-- Buttons -->
+  <div class="flex flex-wrap gap-3 mt-6">
+    <button class="btn btn-primary btn-lg transition-transform hover:scale-105" onclick="addCourse()">+ Add Course</button>
+    <button class="btn btn-success btn-lg transition-transform hover:scale-105" onclick="calculateCGPA()">Calculate CGPA</button>
+    <button class="btn btn-warning btn-lg transition-transform hover:scale-105" onclick="saveSemester()">Save Semester</button>
+    <button class="btn btn-accent btn-lg transition-transform hover:scale-105" onclick="loadSemester()">Load Saved</button>
+  </div>
+
+  <!-- Results -->
+  <div class="mt-6 p-6 bg-gray-50 shadow-xl rounded-xl ring-1 ring-gray-200 transition-transform hover:scale-102">
+    <h3 id="result" class="text-2xl font-bold text-indigo-700"></h3>
+    <h4 id="credits" class="text-lg text-gray-700 mt-2"></h4>
+    <h4 id="failWarning" class="mt-2 font-semibold"></h4>
+  </div>
+
+  <!-- Article for SEO -->
+  <article class="mt-10 bg-gray-50 p-8 shadow-xl rounded-2xl space-y-4 ring-1 ring-gray-200">
+    <h2 class="text-2xl font-bold text-indigo-700">About National University CGPA</h2>
+    <p>National University of Bangladesh follows a standardized grading system where students are assigned grade points based on their marks. This CGPA calculator allows you to track your grades, calculate CGPA, view earned credits, and check failed courses. Retake marks can also be included to ensure accurate CGPA calculation.</p>
+    <p>The interface is fully responsive, making it easy to use on both desktop and mobile devices. The tool also supports saving semester data locally, so you can continue tracking your performance anytime.</p>
+    <p>This calculator supports all courses under the National University curriculum. It displays letter grades next to marks, provides instant CGPA calculation, and highlights failed courses, helping students make informed decisions about retakes and academic planning.</p>
+    <p>Use this tool regularly to stay on top of your performance, plan your semesters efficiently, and ensure you meet graduation requirements. The premium SaaS style gives a modern, user-friendly experience, while SEO-friendly content helps students find it online easily.</p>
+
+    <h3 class="text-xl font-semibold text-indigo-600">FAQ</h3>
+    <ul class="list-disc list-inside space-y-2">
+      <li><strong>How is CGPA calculated at National University?</strong> Multiply each course credit by its grade point, sum them, and divide by total credits.</li>
+      <li><strong>Can I input retake marks?</strong> Yes, the calculator automatically considers the higher grade.</li>
+      <li><strong>Does it show earned credits?</strong> Yes, total earned credits are displayed.</li>
+      <li><strong>Can I save semester data?</strong> Yes, it uses your browser storage.</li>
+      <li><strong>How does the fail warning work?</strong> Courses with F grade display a warning message.</li>
+    </ul>
+  </article>
+
+  <!-- AdSense Bottom -->
+  <div class="mt-10 p-6 bg-gray-200 text-center rounded-lg shadow-lg">Ad Space (336x280)</div>
+</main>
+
+<script>
+function addCourse() {
+    const div = document.createElement("div");
+    div.className = "card card-body bg-gray-100 shadow-xl rounded-2xl flex flex-wrap gap-4 transition-transform hover:scale-105";
+
+    div.innerHTML = `
+        <input placeholder="Course Name (Optional)" class="input input-bordered input-lg w-full md:w-1/2 flex-1 bg-white border-gray-300 focus:ring-2 focus:ring-indigo-500">
+        <input type="number" placeholder="Credit" class="input input-bordered input-lg w-full md:w-1/6 flex-1 bg-white border-gray-300 focus:ring-2 focus:ring-indigo-500">
+        <div class="w-full md:w-1/6 flex items-center gap-2">
+            <input type="number" placeholder="Marks" class="input input-bordered input-lg flex-1 bg-white border-gray-300 focus:ring-2 focus:ring-indigo-500" oninput="detectLetter(this)">
+            <span class="detected font-semibold text-indigo-700"></span>
+        </div>
+        <input type="number" placeholder="Retake Marks (Optional)" class="input input-bordered input-lg w-full md:w-1/6 flex-1 bg-white border-gray-300 focus:ring-2 focus:ring-indigo-500">
+    `;
+    document.getElementById("courses").appendChild(div);
+}
+
+function detectLetter(input){
+    const mark=parseFloat(input.value);
+    const gp=gradeFromMarks(university.value,mark);
+    const letter=gradeToLetter(gp);
+    input.nextElementSibling.innerText=mark ? " → "+letter : "";
+}
+
+function gradeToLetter(gp){
+    const map={4.0:"A+",3.7:"A-",3.3:"B+",3.0:"B",2.7:"B-",2.3:"C+",2.0:"C",1.7:"C-",1.3:"D+",1.0:"D",0.0:"F"};
+    return map[gp] ?? "";
+}
+
+function gradeFromMarks(uni,marks){
+    if(uni=="national"){if(marks>=80)return 4;if(marks>=75)return 3.75;if(marks>=70)return 3.5;if(marks>=65)return 3;if(marks>=60)return 2.5;if(marks>=55)return 2;if(marks>=50)return 1;return 0;}
+    if(uni=="nsu"){if(marks>=93)return 4.0;if(marks>=90)return 3.7;if(marks>=87)return 3.3;if(marks>=83)return 3.0;if(marks>=80)return 2.7;if(marks>=77)return 2.3;if(marks>=73)return 2.0;if(marks>=70)return 1.7;if(marks>=67)return 1.3;if(marks>=60)return 1.0;return 0.0;}
+    return 0.0;
+}
+
+function calculateCGPA(){
+    const credits=document.querySelectorAll(".credit");
+    const marks=document.querySelectorAll(".marks");
+    const retakes=document.querySelectorAll(".retake");
+
+    let totalCredits=0,totalPoints=0,failCount=0,earnedCredits=0;
+
+    for(let i=0;i<credits.length;i++){
+        let credit=parseFloat(credits[i].value);
+        let mark=parseFloat(marks[i].value);
+        let retake=parseFloat(retakes[i].value);
+        if(isNaN(credit)||isNaN(mark)) continue;
+        let gpOriginal=gradeFromMarks(university.value,mark);
+        let gpFinal=gpOriginal;
+        if(!isNaN(retake)){
+            let gpRetake=gradeFromMarks(university.value,retake);
+            gpFinal=Math.max(gpOriginal,gpRetake);
+        }
+        if(gpFinal===0) failCount++;
+        else earnedCredits+=credit;
+        totalCredits+=credit;
+        totalPoints+=credit*gpFinal;
+    }
+
+    if(totalCredits===0) return;
+
+    document.getElementById("result").innerText="CGPA: "+(totalPoints/totalCredits).toFixed(2);
+    document.getElementById("credits").innerText="Earned Credits: "+earnedCredits;
+
+    const failEl=document.getElementById("failWarning");
+    if(failCount>0){failEl.innerText="⚠ You still have "+failCount+" failed course(s)."; failEl.className="warning font-bold";}
+    else{failEl.innerText="All courses passed ✔"; failEl.className="success font-bold";}
+}
+
+function saveSemester(){localStorage.setItem("cgpaData",document.getElementById("courses").innerHTML); alert("Semester Saved!");}
+function loadSemester(){document.getElementById("courses").innerHTML=localStorage.getItem("cgpaData");}
+
+addCourse();
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIUB CGPA Calculator – Bangladesh</title>
+<meta name="description" content="Premium AIUB CGPA Calculator with retake support, fail warnings, earned credits, and full-width inputs. Fully responsive and SEO-friendly.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@3.2.2/dist/full.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+
+<header class="relative w-full h-40 md:h-56 overflow-hidden rounded-b-3xl shadow-lg">
+  <img src="images/aiub.jpg" alt="AIUB Banner" class="w-full h-full object-cover">
+  <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+    <h1 class="text-white text-2xl md:text-4xl font-bold">AIUB CGPA Calculator</h1>
+  </div>
+</header>
+
+<main class="max-w-5xl mx-auto mt-6 px-4">
+  <div class="mb-6 p-4 bg-gray-200 text-center rounded-lg shadow-lg">Ad Space (728x90)</div>
+
+  <div class="mb-6">
+    <select id="university" class="select select-bordered select-lg w-full bg-gray-100 border-gray-300 focus:ring-2 focus:ring-purple-500">
+      <option value="nsu">NSU – North South University</option>
+      <option value="national">National University</option>
+      <option value="brac">BRAC University</option>
+      <option value="aiub" selected>AIUB</option>
+      <option value="daffodil">Daffodil International University</option>
+      <option value="eastwest">East West University</option>
+      <option value="southeast">South East University</option>
+      <option value="stamford">Stamford University</option>
+    </select>
+  </div>
+
+  <div id="courses" class="space-y-4"></div>
+
+  <div class="flex flex-wrap gap-3 mt-6">
+    <button class="btn btn-primary btn-lg transition-transform hover:scale-105" onclick="addCourse()">+ Add Course</button>
+    <button class="btn btn-success btn-lg transition-transform hover:scale-105" onclick="calculateCGPA()">Calculate CGPA</button>
+    <button class="btn btn-warning btn-lg transition-transform hover:scale-105" onclick="saveSemester()">Save Semester</button>
+    <button class="btn btn-accent btn-lg transition-transform hover:scale-105" onclick="loadSemester()">Load Saved</button>
+  </div>
+
+  <div class="mt-6 p-6 bg-gray-50 shadow-xl rounded-xl ring-1 ring-gray-200 transition-transform hover:scale-102">
+    <h3 id="result" class="text-2xl font-bold text-indigo-700"></h3>
+    <h4 id="credits" class="text-lg text-gray-700 mt-2"></h4>
+    <h4 id="failWarning" class="mt-2 font-semibold"></h4>
+  </div>
+
+  <article class="mt-10 bg-gray-50 p-8 shadow-xl rounded-2xl space-y-4 ring-1 ring-gray-200">
+    <h2 class="text-2xl font-bold text-indigo-700">About AIUB CGPA</h2>
+    <p>AIUB follows a 4.0 GPA scale. Students can enter their marks and credits per course to calculate CGPA accurately, including retake marks. Fail warnings and earned credits are displayed automatically.</p>
+    <p>The responsive interface works on all devices. Semester data can be saved locally to continue tracking performance.</p>
+    <p>Letter grades appear next to marks for clarity. This premium SaaS-style calculator provides a modern and clean experience for AIUB students.</p>
+    <p>Regular use helps students monitor progress, plan semesters efficiently, and meet graduation requirements. SEO content ensures students can find it online easily.</p>
+
+    <h3 class="text-xl font-semibold text-indigo-600">FAQ</h3>
+    <ul class="list-disc list-inside space-y-2">
+      <li><strong>How is CGPA calculated at AIUB?</strong> Multiply each course credit by grade point, sum, divide by total credits.</li>
+      <li><strong>Can retake marks be included?</strong> Yes, the calculator takes the higher grade automatically.</li>
+      <li><strong>Does it show earned credits?</strong> Yes.</li>
+      <li><strong>Can I save semester data?</strong> Yes, local browser storage.</li>
+      <li><strong>How does fail warning work?</strong> Shows courses with F grade.</li>
+    </ul>
+  </article>
+
+  <div class="mt-10 p-6 bg-gray-200 text-center rounded-lg shadow-lg">Ad Space (336x280)</div>
+</main>
+
+<script>
+// Same addCourse(), detectLetter(), gradeToLetter() as previous pages
+// Grading system for AIUB is included
+function addCourse(){const div=document.createElement("div");div.className="card card-body bg-gray-100 shadow-xl rounded-2xl flex flex-wrap gap-4 transition-transform hover:scale-105";div.innerHTML=`<input placeholder="Course Name (Optional)" class="input input-bordered input-lg w-full md:w-1/2 flex-1 bg-white border-gray-300 focus:ring-2 focus:ring-indigo-500"><input type="number" placeholder="Credit" class="input input-bordered input-lg w-full md:w-1/6 flex-1 bg-white border-gray-300 focus:ring-2 focus:ring-indigo-500"><div class="w-full md:w-1/6 flex items-center gap-2"><input type="number" placeholder="Marks" class="input input-bordered input-lg flex-1 bg-white border-gray-300 focus:ring-2 focus:ring-indigo-500" oninput="detectLetter(this)"><span class="detected font-semibold text-indigo-700"></span></div><input type="number" placeholder="Retake Marks (Optional)" class="input input-bordered input-lg w-full md:w-1/6 flex-1 bg-white border-gray-300 focus:ring-2 focus:ring-indigo-500">`;document.getElementById("courses").appendChild(div);}
+function detectLetter(input){const mark=parseFloat(input.value);const gp=gradeFromMarks(university.value,mark);const letter=gradeToLetter(gp);input.nextElementSibling.innerText=mark?" → "+letter:"";}
+function gradeToLetter(gp){const map={4.0:"A+",3.7:"A-",3.3:"B+",3.0:"B",2.7:"B-",2.3:"C+",2.0:"C",1.7:"C-",1.3:"D+",1.0:"D",0.0:"F"};return map[gp]??"";}
+function gradeFromMarks(uni,marks){if(uni=="aiub"){if(marks>=90)return 4.0;if(marks>=85)return 3.7;if(marks>=80)return 3.3;if(marks>=75)return 3.0;if(marks>=70)return 2.7;if(marks>=65)return 2.3;if(marks>=60)return 2.0;return 0.0;}return 0.0;}
+function calculateCGPA(){const credits=document.querySelectorAll(".credit");const marks=document.querySelectorAll(".marks");const retakes=document.querySelectorAll(".retake");let totalCredits=0,totalPoints=0,failCount=0,earnedCredits=0;for(let i=0;i<credits.length;i++){let credit=parseFloat(credits[i].value);let mark=parseFloat(marks[i].value);let retake=parseFloat(retakes[i].value);if(isNaN(credit)||isNaN(mark)) continue;let gpOriginal=gradeFromMarks(university.value,mark);let gpFinal=gpOriginal;if(!isNaN(retake)){let gpRetake=gradeFromMarks(university.value,retake);gpFinal=Math.max(gpOriginal,gpRetake);}if(gpFinal===0) failCount++;else earnedCredits+=credit;totalCredits+=credit;totalPoints+=credit*gpFinal;}if(totalCredits===0) return;document.getElementById("result").innerText="CGPA: "+(totalPoints/totalCredits).toFixed(2);document.getElementById("credits").innerText="Earned Credits: "+earnedCredits;const failEl=document.getElementById("failWarning");if(failCount>0){failEl.innerText="⚠ You still have "+failCount+" failed course(s).";failEl.className="warning font-bold";}else{failEl.innerText="All courses passed ✔";failEl.className="success font-bold";}}
+function saveSemester(){localStorage.setItem("cgpaData",document.getElementById("courses").innerHTML);alert("Semester Saved!");}
+function loadSemester(){document.getElementById("courses").innerHTML=localStorage.getItem("cgpaData");}
+addCourse();
+</script>
+</body>
+</html>
