@@ -6,6 +6,7 @@
 <title>Daffodil International University CGPA Calculator – Bangladesh</title>
 <meta name="description" content="Premium Daffodil International University CGPA Calculator with retake support, fail warnings, earned credits, and full-width inputs. Fully responsive and SEO-friendly.">
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="d.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/daisyui@3.2.2/dist/full.css" rel="stylesheet">
 </head>
 
@@ -30,6 +31,23 @@
   <div class="mb-6 p-4 bg-gray-200 text-center rounded-lg shadow-lg">
     Ad Space (728x90)
   </div>
+  <div class="card card-body bg-white shadow-xl rounded-2xl flex flex-wrap gap-4">
+      <input placeholder="Course Name (Optional)" 
+    class="input input-bordered w-full md:w-1/2">
+
+    <input type="number" placeholder="Credit" 
+    class="credit input input-bordered w-full md:w-1/6">
+
+    <div class="w-full md:w-1/6 flex items-center gap-2">
+      <input type="number" placeholder="Marks" 
+      class="marks input input-bordered flex-1"
+      oninput="detectLetter(this)">
+      <span class="detected font-semibold text-indigo-700"></span>
+    </div>
+
+    <input type="number" placeholder="Retake Marks (Optional)" 
+    class="retake input input-bordered w-full md:w-1/6">
+    </div>
 
   <div id="courses" class="space-y-4"></div>
 
@@ -53,138 +71,7 @@
   </div>
 </main>
 
-<script>
 
-// Add Course
-function addCourse() {
-  const div = document.createElement("div");
-  div.className = "card card-body bg-white shadow-xl rounded-2xl flex flex-wrap gap-4";
-
-  div.innerHTML = `
-    <input placeholder="Course Name (Optional)" 
-      class="input input-bordered input-lg w-full md:w-1/2 flex-1">
-
-    <input type="number" placeholder="Credit" 
-      class="credit input input-bordered input-lg w-full md:w-1/6 flex-1">
-
-    <div class="w-full md:w-1/6 flex items-center gap-2">
-      <input type="number" placeholder="Marks" 
-        class="marks input input-bordered input-lg flex-1"
-        oninput="detectLetter(this)">
-      <span class="detected font-semibold text-indigo-700"></span>
-    </div>
-
-    <input type="number" placeholder="Retake Marks (Optional)" 
-      class="retake input input-bordered input-lg w-full md:w-1/6 flex-1">
-  `;
-
-  document.getElementById("courses").appendChild(div);
-}
-
-// Grade Scale (Daffodil)
-function gradeFromMarks(marks) {
-  if (marks >= 85) return 4.0;
-  if (marks >= 75) return 3.5;
-  if (marks >= 65) return 3.0;
-  if (marks >= 55) return 2.5;
-  if (marks >= 50) return 2.0;
-  return 0.0;
-}
-
-function gradeToLetter(gp) {
-  if (gp === 4.0) return "A+";
-  if (gp === 3.5) return "A";
-  if (gp === 3.0) return "B";
-  if (gp === 2.5) return "C";
-  if (gp === 2.0) return "D";
-  return "F";
-}
-
-function detectLetter(input) {
-  const mark = parseFloat(input.value);
-  const span = input.nextElementSibling;
-
-  if (!mark && mark !== 0) {
-    span.innerText = "";
-    return;
-  }
-
-  const gp = gradeFromMarks(mark);
-  span.innerText = "→ " + gradeToLetter(gp);
-}
-
-// Calculate CGPA
-function calculateCGPA() {
-  const courses = document.querySelectorAll("#courses > div");
-
-  let totalCredits = 0;
-  let totalPoints = 0;
-  let failCount = 0;
-  let earnedCredits = 0;
-
-  courses.forEach(course => {
-    const credit = parseFloat(course.querySelector(".credit").value) || 0;
-    const mark = parseFloat(course.querySelector(".marks").value) || 0;
-    const retake = parseFloat(course.querySelector(".retake").value);
-
-    let gpOriginal = gradeFromMarks(mark);
-    let gpFinal = gpOriginal;
-
-    if (!isNaN(retake)) {
-      gpFinal = Math.max(gpOriginal, gradeFromMarks(retake));
-    }
-
-    if (credit > 0) {
-      totalCredits += credit;
-      totalPoints += credit * gpFinal;
-
-      if (gpFinal === 0) failCount++;
-      else earnedCredits += credit;
-    }
-  });
-
-  if (totalCredits === 0) return;
-
-  document.getElementById("result").innerText =
-    "CGPA: " + (totalPoints / totalCredits).toFixed(2);
-
-  document.getElementById("credits").innerText =
-    "Earned Credits: " + earnedCredits;
-
-  const failEl = document.getElementById("failWarning");
-
-  if (failCount > 0) {
-    failEl.innerText = "⚠ You still have " + failCount + " failed course(s).";
-    failEl.className = "text-red-600 font-semibold mt-2";
-  } else {
-    failEl.innerText = "All courses passed ✔";
-    failEl.className = "text-green-600 font-semibold mt-2";
-  }
-}
-
-// Save & Load
-function saveSemester() {
-  localStorage.setItem("cgpaData", document.getElementById("courses").innerHTML);
-  alert("Semester Saved!");
-}
-
-function loadSemester() {
-  const data = localStorage.getItem("cgpaData");
-  if (data) {
-    document.getElementById("courses").innerHTML = data;
-  }
-}
-
-// Auto Add First Course
-addCourse();
-
-// Footer Year
-document.addEventListener("DOMContentLoaded", function() {
-  const year = new Date().getFullYear();
-  document.getElementById("year").innerText = year;
-});
-
-</script>
 
 <footer class="footer sm:footer-horizontal bg-neutral text-neutral-content items-center p-4 mt-10">
   <aside>
