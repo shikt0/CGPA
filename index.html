@@ -1,133 +1,444 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BDCGPA</title>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BDCGPA — Bangladesh University GPA Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:        #2A6B7C;
+      --teal-light:  #3A8FA3;
+      --teal-pale:   #E8F4F7;
+      --gold:        #B8922A;
+      --gold-light:  #D4A84B;
+      --gold-pale:   #FBF3E2;
+      --cream:       #FAF7F0;
+      --text-dark:   #1E3A40;
+      --text-mid:    #3D6672;
+      --text-soft:   #7A9BA3;
+      --border:      rgba(42,107,124,0.18);
+      --shadow-card: 0 4px 24px rgba(42,107,124,0.10), 0 1px 4px rgba(0,0,0,0.06);
+      --shadow-hover: 0 12px 40px rgba(42,107,124,0.18), 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3rem;
+      height: 68px;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 20px rgba(42,107,124,0.08);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-logo-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(42,107,124,0.3);
+    }
+    .nav-logo-icon svg { width: 20px; height: 20px; fill: white; }
+    .nav-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--teal); letter-spacing: 0.02em;
+    }
+    .nav-logo-text span { color: var(--gold); }
+    .nav-tagline {
+      font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--text-soft); font-weight: 500;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      margin-top: 68px;
+      position: relative; overflow: hidden;
+    }
+    .hero-img {
+      width: 100%; display: block;
+      max-height: 430px; object-fit: cover; object-position: center top;
+    }
+    .hero-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 55%;
+      background: linear-gradient(to bottom, transparent, var(--cream));
+    }
+    .hero-badge {
+      position: absolute; top: 1.4rem; left: 50%; transform: translateX(-50%);
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 0.4rem 1.4rem;
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--teal); font-weight: 700;
+      white-space: nowrap;
+      box-shadow: 0 2px 14px rgba(42,107,124,0.14);
+      animation: fadeDown 0.7s 0.2s both;
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    /* ── INTRO ── */
+    .intro {
+      text-align: center; padding: 2.5rem 2rem 0.5rem;
+    }
+    .intro-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold); font-weight: 700; margin-bottom: 0.9rem;
+      opacity: 0; animation: fadeUp 0.7s 0.1s forwards;
+    }
+    .intro-eyebrow::before, .intro-eyebrow::after {
+      content: ''; display: block; width: 28px; height: 1px; background: var(--gold-light);
+    }
+    .intro-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; line-height: 1.15;
+      color: var(--text-dark); margin-bottom: 0.75rem;
+      opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+    }
+    .intro-title em { font-style: italic; color: var(--teal); }
+    .intro-desc {
+      max-width: 510px; margin: 0 auto 2rem;
+      font-size: 1rem; line-height: 1.7; color: var(--text-mid); font-weight: 400;
+      opacity: 0; animation: fadeUp 0.7s 0.3s forwards;
+    }
+
+    /* stats strip */
+    .stats {
+      display: flex; align-items: center; justify-content: center;
+      flex-wrap: wrap; margin: 0 auto 3.5rem;
+      max-width: 580px;
+      border: 1px solid var(--border); border-radius: 14px;
+      background: white; overflow: hidden;
+      box-shadow: var(--shadow-card);
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+    .stat {
+      flex: 1; min-width: 110px; padding: 1.1rem 1rem;
+      text-align: center; border-right: 1px solid var(--border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem; font-weight: 700; color: var(--teal); line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-soft); font-weight: 600; margin-top: 0.25rem;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── UNIVERSITY SECTION ── */
+    .uni-section {
+      position: relative;
+      padding: 4rem 2rem 5.5rem;
+    }
+    /* 222.png as the section background */
+    .uni-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background-image: url('images/222.png');
+      background-size: cover; background-position: center;
+      opacity: 0.55;
+    }
+    /* soft cream wash on top for readability */
+    .uni-wash {
+      position: absolute; inset: 0; z-index: 1;
+      background: rgba(250,247,240,0.72);
+    }
+    .uni-inner {
+      position: relative; z-index: 2;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    .uni-header { text-align: center; margin-bottom: 2.8rem; }
+    .uni-header-label {
+      font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); font-weight: 700; margin-bottom: 0.5rem;
+    }
+    .uni-header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem); font-weight: 700; color: var(--text-dark);
+    }
+    .uni-header-title em { font-style: italic; color: var(--teal); }
+    .uni-header-line {
+      width: 64px; height: 3px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--teal), var(--gold-light));
+      margin: 1rem auto 0;
+    }
+
+    /* ── CARDS ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.3rem;
+    }
+
+    .uni-card {
+      background: white;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      padding: 1.8rem 1.5rem 1.5rem;
+      text-decoration: none; color: var(--text-dark);
+      display: flex; flex-direction: column; align-items: flex-start; gap: 0.9rem;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.3s cubic-bezier(.4,0,.2,1),
+                  box-shadow 0.3s cubic-bezier(.4,0,.2,1),
+                  border-color 0.3s;
+      opacity: 0; position: relative; overflow: hidden;
+    }
+    .uni-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--teal), var(--gold-light));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+    }
+    .uni-card:hover::before { transform: scaleX(1); }
+    .uni-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(42,107,124,0.28);
+    }
+
+    .card-num {
+      font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
+      font-weight: 700; color: var(--text-soft);
+    }
+    .card-logo-wrap {
+      width: 64px; height: 64px; border-radius: 14px;
+      background: var(--teal-pale);
+      border: 1px solid rgba(42,107,124,0.15);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; padding: 8px;
+      transition: background 0.3s;
+    }
+    .uni-card:hover .card-logo-wrap { background: #cce8f0; }
+    .card-logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
+    .card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 600; line-height: 1.3;
+      color: var(--text-dark); flex: 1;
+    }
+    .card-cta {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--teal);
+      transition: gap 0.25s, color 0.25s;
+    }
+    .uni-card:hover .card-cta { gap: 0.7rem; color: var(--teal-light); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text-dark);
+      color: rgba(255,255,255,0.65);
+      padding: 2.2rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.2rem;
+    }
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700; color: white;
+    }
+    .footer-brand span { color: var(--gold-light); }
+    .footer-copy { font-size: 0.72rem; color: rgba(255,255,255,0.42); margin-top: 0.2rem; }
+    .footer-socials { display: flex; gap: 0.8rem; }
+    .footer-socials a {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.55); transition: background 0.25s, color 0.25s;
+    }
+    .footer-socials a:hover { background: var(--teal); color: white; }
+    .footer-socials svg { width: 16px; height: 16px; fill: currentColor; }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 1.2rem; }
+      .nav-tagline { display: none; }
+      .hero-badge { font-size: 0.62rem; padding: 0.35rem 1rem; }
+      .uni-section { padding: 2.5rem 1rem 4rem; }
+      footer { padding: 1.8rem 1.5rem; }
+    }
+  </style>
 </head>
 <body>
-    <section>
-        <div class="carousel w-full">
-  <div id="slide1" class="carousel-item relative w-full">
-    <img
-      src="images/111.png"
-      class="w-full" />
-    
-  </div>
-  
-    </section>
 
-
-   <section class="flex items-center justify-center pt-10 bg-[url('images/222.png')] bg-cover bg-center">
-   <div class="card bg-neutral text-neutral-content w-200 mb-10">
-  <div class="card-body items-center text-center">
-    <h2 class="text-4xl pb-5">Select Your university</h2>
-    <ul class="menu bg-base-100 text-black rounded-box w-56">
-    
-    <ul class="space-y-4">
-      <li><a href="national-university-cgpa-calculator.html">National University<div class="avatar">
-  <div class="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2">
-    <img src="images/nulogo.png" />
-  </div>
-</div></a></li>
-      <li><a href="nsu-cgpa-calculator.html">North-South University<div class="avatar">
-  <div class="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2">
-    <img src="images/nsulogo.png" />
-  </div>
-</div></a></li>
-      <li><a href="aiub-cgpa-calculator.html">American International University-Bangladesh
-<div class="avatar">
-  <div class="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2">
-    <img src="images/alogo.png" />
-  </div>
-</div></a></li>
-      <li><a href="brac-university-cgpa-calculator.html">BRAC University<div class="avatar">
-  <div class="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2">
-    <img src="images/blogo.png" />
-  </div>
-</div></a></li>
-      <li><a href="daffodil-cgpa-calculator.html">Daffodil international university<div class="avatar">
-  <div class="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2">
-    <img src="images/dlogo.png" />
-  </div>
-</div></a></li>
-      <li><a href="eastwest-cgpa-calculator.html">East West University<div class="avatar">
-  <div class="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2">
-    <img src="images/elogo.png" />
-  </div>
-</div></a></li>
-      <li><a href="stamford-cgpa-calculator.html">Stamford University Bangladesh
-<div class="avatar">
-  <div class="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2">
-    <img src="images/slogo.png" />
-  </div>
-</div></a></li>
-      <li><a href="southeast-cgpa-calculator.html">Southeast University<div class="avatar">
-  <div class="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2">
-    <img src="images/selogo.png" />
-  </div>
-</div></a></li>
-    </ul>
-</ul>
-  </div>
-</div>
-   </section>
-
-<script src="resources.js">
-</script>  
-    
-</body>
-<footer class="footer sm:footer-horizontal bg-neutral text-neutral-content items-center p-4">
-  <aside class="grid-flow-col items-center">
-    <svg
-      width="36"
-      height="36"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      class="fill-current">
-      <path
-        d="M22.672 15.226l-2.432.811.841 2.515c.33 1.019-.209 2.127-1.23 2.456-1.15.325-2.148-.321-2.463-1.226l-.84-2.518-5.013 1.677.84 2.517c.391 1.203-.434 2.542-1.831 2.542-.88 0-1.601-.564-1.86-1.314l-.842-2.516-2.431.809c-1.135.328-2.145-.317-2.463-1.229-.329-1.018.211-2.127 1.231-2.456l2.432-.809-1.621-4.823-2.432.808c-1.355.384-2.558-.59-2.558-1.839 0-.817.509-1.582 1.327-1.846l2.433-.809-.842-2.515c-.33-1.02.211-2.129 1.232-2.458 1.02-.329 2.13.209 2.461 1.229l.842 2.515 5.011-1.677-.839-2.517c-.403-1.238.484-2.553 1.843-2.553.819 0 1.585.509 1.85 1.326l.841 2.517 2.431-.81c1.02-.33 2.131.211 2.461 1.229.332 1.018-.21 2.126-1.23 2.456l-2.433.809 1.622 4.823 2.433-.809c1.242-.401 2.557.484 2.557 1.838 0 .819-.51 1.583-1.328 1.847m-8.992-6.428l-5.01 1.675 1.619 4.828 5.011-1.674-1.62-4.829z"></path>
-    </svg>
-    <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
-  </aside>
-  <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-    <a>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        class="fill-current">
-        <path
-          d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
-      </svg>
-    </a>
-    <a>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        class="fill-current">
-        <path
-          d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
-      </svg>
-    </a>
-    <a>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        class="fill-current">
-        <path
-          d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
-      </svg>
-    </a>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-brand">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 13.5L4.21 12 3 12.73V17c0 1.66 4.03 3 9 3s9-1.34 9-3v-4.27l-1.21-.73L12 16.5z"/></svg>
+      </div>
+      <div class="nav-logo-text">BD<span>CGPA</span></div>
+    </div>
+    <div class="nav-tagline">Bangladesh · GPA Calculator</div>
   </nav>
-</footer>
+
+  <!-- HERO BANNER (111.png) -->
+  <section class="hero">
+    <div class="hero-badge">🎓 Bangladesh's Trusted CGPA Calculator</div>
+    <img class="hero-img" src="images/111.png" alt="BDCGPA Hero Banner" />
+    <div class="hero-overlay"></div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <div class="intro-eyebrow">Academic Excellence Tool</div>
+    <h1 class="intro-title">Calculate Your <em>CGPA</em><br>With Precision</h1>
+    <p class="intro-desc">
+      Select your university below and instantly calculate your Grade Point Average
+      using the exact grading system your institution follows — free and accurate.
+    </p>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">8</div><div class="stat-label">Universities</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Free</div></div>
+      <div class="stat"><div class="stat-num">⚡</div><div class="stat-label">Instant</div></div>
+      <div class="stat"><div class="stat-num">✓</div><div class="stat-label">Accurate</div></div>
+    </div>
+  </section>
+
+  <!-- UNIVERSITIES (222.png as background) -->
+  <section class="uni-section" id="universities">
+    <div class="uni-bg"></div>
+    <div class="uni-wash"></div>
+    <div class="uni-inner">
+
+      <div class="uni-header">
+        <div class="uni-header-label">Step 1 — Choose Your Institution</div>
+        <h2 class="uni-header-title">Select Your <em>University</em></h2>
+        <div class="uni-header-line"></div>
+      </div>
+
+      <div class="grid">
+
+        <a class="uni-card" href="national-university-cgpa-calculator.html">
+          <span class="card-num">01</span>
+          <div class="card-logo-wrap"><img src="images/nulogo.png" alt="National University" /></div>
+          <div class="card-name">National University</div>
+          <div class="card-cta">Calculate GPA →</div>
+        </a>
+
+        <a class="uni-card" href="nsu-cgpa-calculator.html">
+          <span class="card-num">02</span>
+          <div class="card-logo-wrap"><img src="images/nsulogo.png" alt="North South University" /></div>
+          <div class="card-name">North South University</div>
+          <div class="card-cta">Calculate GPA →</div>
+        </a>
+
+        <a class="uni-card" href="aiub-cgpa-calculator.html">
+          <span class="card-num">03</span>
+          <div class="card-logo-wrap"><img src="images/alogo.png" alt="AIUB" /></div>
+          <div class="card-name">American International University — Bangladesh</div>
+          <div class="card-cta">Calculate GPA →</div>
+        </a>
+
+        <a class="uni-card" href="brac-university-cgpa-calculator.html">
+          <span class="card-num">04</span>
+          <div class="card-logo-wrap"><img src="images/blogo.png" alt="BRAC University" /></div>
+          <div class="card-name">BRAC University</div>
+          <div class="card-cta">Calculate GPA →</div>
+        </a>
+
+        <a class="uni-card" href="daffodil-cgpa-calculator.html">
+          <span class="card-num">05</span>
+          <div class="card-logo-wrap"><img src="images/dlogo.png" alt="Daffodil International University" /></div>
+          <div class="card-name">Daffodil International University</div>
+          <div class="card-cta">Calculate GPA →</div>
+        </a>
+
+        <a class="uni-card" href="eastwest-cgpa-calculator.html">
+          <span class="card-num">06</span>
+          <div class="card-logo-wrap"><img src="images/elogo.png" alt="East West University" /></div>
+          <div class="card-name">East West University</div>
+          <div class="card-cta">Calculate GPA →</div>
+        </a>
+
+        <a class="uni-card" href="stamford-cgpa-calculator.html">
+          <span class="card-num">07</span>
+          <div class="card-logo-wrap"><img src="images/slogo.png" alt="Stamford University Bangladesh" /></div>
+          <div class="card-name">Stamford University Bangladesh</div>
+          <div class="card-cta">Calculate GPA →</div>
+        </a>
+
+        <a class="uni-card" href="southeast-cgpa-calculator.html">
+          <span class="card-num">08</span>
+          <div class="card-logo-wrap"><img src="images/selogo.png" alt="Southeast University" /></div>
+          <div class="card-name">Southeast University</div>
+          <div class="card-cta">Calculate GPA →</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-brand">BD<span>CGPA</span></div>
+      <div class="footer-copy">© <span id="yr"></span> BDCGPA — All rights reserved</div>
+    </div>
+    <div class="footer-socials">
+      <a href="#" aria-label="Twitter">
+        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="#" aria-label="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+      </a>
+      <a href="#" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // Staggered card entrance
+    const cards = document.querySelectorAll('.uni-card');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const delay = parseFloat(entry.target.dataset.delay || 0);
+          setTimeout(() => {
+            entry.target.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }, delay * 1000);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach((card, i) => {
+      card.style.transform = 'translateY(20px)';
+      card.dataset.delay = (i * 0.07).toFixed(2);
+      observer.observe(card);
+    });
+  </script>
+</body>
 </html>
