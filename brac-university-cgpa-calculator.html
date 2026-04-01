@@ -1,86 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BRAC University CGPA Calculator – Bangladesh</title>
-<meta name="description" content="Premium BRAC University CGPA Calculator with retake support and earned credits.">
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="brac.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/daisyui@3.2.2/dist/full.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ═══ PRIMARY SEO ═══ -->
+  <title>BRAC University CGPA Calculator – Bangladesh | BDCGPA</title>
+  <meta name="description" content="Free BRAC University CGPA Calculator Bangladesh. Calculate your semester GPA and CGPA instantly using BRAC University's official grading scale. Supports retakes, fail warnings, and semester saving." />
+  <meta name="keywords" content="BRAC University CGPA calculator, BRAC GPA calculator Bangladesh, BRAC University grading system, BRAC grade point calculator, BRACU CGPA, BRAC University result calculator, Bangladesh private university GPA" />
+  <meta name="author" content="BDCGPA" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <link rel="canonical" href="https://bdcgpa.com/brac-university-cgpa-calculator.html" />
+
+  <!-- ═══ OPEN GRAPH ═══ -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="BRAC University CGPA Calculator – Bangladesh | BDCGPA" />
+  <meta property="og:description" content="Instantly calculate your BRAC University GPA and CGPA using the official grading scale. Free, accurate, and mobile-friendly." />
+  <meta property="og:image"       content="https://bdcgpa.com/images/brac.jpg" />
+  <meta property="og:url"         content="https://bdcgpa.com/brac-university-cgpa-calculator.html" />
+  <meta property="og:site_name"   content="BDCGPA" />
+  <meta property="og:locale"      content="en_BD" />
+
+  <!-- ═══ TWITTER CARD ═══ -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="BRAC University CGPA Calculator – Bangladesh | BDCGPA" />
+  <meta name="twitter:description" content="Calculate your BRAC University GPA instantly using the official grading scale. Free and accurate." />
+  <meta name="twitter:image"       content="https://bdcgpa.com/images/brac.jpg" />
+
+  <!-- ═══ STRUCTURED DATA: WebApplication ═══ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "BRAC University CGPA Calculator",
+    "url": "https://bdcgpa.com/brac-university-cgpa-calculator.html",
+    "description": "Free CGPA calculator for BRAC University Bangladesh. Uses BRAC University's official grading scale with letter grades from A+ (4.00) down to F (0.00).",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BDT" },
+    "publisher": { "@type": "Organization", "name": "BDCGPA", "url": "https://bdcgpa.com" },
+    "about": {
+      "@type": "EducationalOrganization",
+      "name": "BRAC University",
+      "url": "https://www.bracu.ac.bd",
+      "address": { "@type": "PostalAddress", "addressLocality": "Dhaka", "addressCountry": "BD" }
+    }
+  }
+  </script>
+
+  <!-- ═══ STRUCTURED DATA: BreadcrumbList ═══ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home",                        "item": "https://bdcgpa.com/" },
+      { "@type": "ListItem", "position": 2, "name": "BRAC University CGPA Calculator", "item": "https://bdcgpa.com/brac-university-cgpa-calculator.html" }
+    ]
+  }
+  </script>
+
+  <!-- ═══ STRUCTURED DATA: FAQPage ═══ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What grading scale does BRAC University use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BRAC University uses a letter grade system on a 4.0 scale. Marks of 97–100 earn an A+ (4.00), marks of 90–96 earn an A (4.00), and marks below 50 result in an F (0.00 — Fail). The scale has 13 grade levels from A+ down to F."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is BRAC University CGPA calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BRAC University CGPA = Sum of (Grade Point × Credit Hours) ÷ Total Credit Hours Attempted. Failed courses (F grade) earn 0.00 grade points but still count as attempted credits, which lowers your CGPA."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the minimum passing grade at BRAC University?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "At BRAC University, a D- (0.70 grade point) is the lowest passing grade, requiring marks of 50–51. Any marks below 50 result in an F (0.00) which is a fail. However, many programs require a minimum grade of C or higher in core courses."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good CGPA at BRAC University?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "At BRAC University, a CGPA of 3.70 or above is considered excellent. A CGPA of 3.00–3.69 is good, 2.50–2.99 is satisfactory, and the minimum required to remain in good academic standing is generally 2.00."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does BRAC University allow course retakes?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, BRAC University allows students to retake courses to improve their grade. Enter your retake marks in the Retake column of this calculator and it will automatically use the better score for your CGPA calculation."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- ═══ GOOGLE ADSENSE — replace with your publisher ID ═══ -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- ═══ FONTS ═══ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- ═══ STYLESHEET ═══ -->
+  <link rel="stylesheet" href="style/style.css" />
 </head>
+<body>
 
-<body class="bg-gray-100 font-sans">
+  <!-- NAVBAR -->
+  <nav aria-label="Site navigation">
+    <a class="nav-brand" href="index.html" aria-label="BDCGPA Home">
+      <div class="nav-logo-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 13.5L4.21 12 3 12.73V17c0 1.66 4.03 3 9 3s9-1.34 9-3v-4.27l-1.21-.73L12 16.5z"/></svg>
+      </div>
+      <div class="nav-logo-text">BD<span>CGPA</span></div>
+    </a>
+    <a class="nav-back" href="index.html">← All Universities</a>
+  </nav>
 
-<!-- Header -->
-<header class="relative w-full h-40 md:h-56 overflow-hidden rounded-b-3xl shadow-lg">
-  <img src="images/brac.jpg" alt="BRAC University Banner" class="w-full h-full object-cover">
-  <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-    <h1 class="text-white text-2xl md:text-4xl font-bold">
-      BRAC University CGPA Calculator
-    </h1>
-  </div>
-</header>
-
-<!-- Main -->
-<main class="relative max-w-5xl mx-auto mt-6 px-4">
-
-  <!-- Background Texture -->
-  <div class="absolute inset-0 bg-[url('images/222.png')] bg-cover bg-center opacity-10 rounded-3xl"></div>
- 
-
-  <div class="relative space-y-6">
-
-    <div class="p-4 bg-gray-200 text-center rounded-lg shadow-lg">
-      Ad Space (728x90)
+  <!-- HERO -->
+  <section class="hero" aria-label="BRAC University CGPA Calculator">
+    <img class="hero-img" src="images/brac.jpg" alt="BRAC University campus Dhaka Bangladesh" onerror="this.style.display='none'" width="1200" height="220" />
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-badge" aria-hidden="true">🎓 Official BRAC University Grading System</div>
+      <h1 class="hero-title">BRAC University<br><em>CGPA Calculator</em></h1>
+      <p class="hero-sub">Bangladesh · 4.0 Scale · Free · Instant Results</p>
     </div>
-     <div class="card card-body bg-white shadow-xl rounded-2xl flex flex-wrap gap-4">
-      <input placeholder="Course Name (Optional)" 
-    class="input input-bordered w-full md:w-1/2">
+  </section>
 
-    <input type="number" placeholder="Credit" 
-    class="credit input input-bordered w-full md:w-1/6">
+  <!-- MAIN -->
+  <main class="main" id="main-content">
 
-    <div class="w-full md:w-1/6 flex items-center gap-2">
-      <input type="number" placeholder="Marks" 
-      class="marks input input-bordered flex-1"
-      oninput="detectLetter(this)">
-      <span class="detected font-semibold text-indigo-700"></span>
-    </div>
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <a href="index.html">Calculators</a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <span class="breadcrumb-current">BRAC University CGPA Calculator</span>
+    </nav>
 
-    <input type="number" placeholder="Retake Marks (Optional)" 
-    class="retake input input-bordered w-full md:w-1/6">
-    </div>
-
-    <div id="courses" class="space-y-4"></div>
-
-    <div class="flex flex-wrap gap-3">
-      <button class="btn btn-primary btn-lg" onclick="addCourse()">+ Add Course</button>
-      <button class="btn btn-success btn-lg" onclick="calculateCGPA()">Calculate CGPA</button>
-      <button class="btn btn-warning btn-lg" onclick="saveSemester()">Save</button>
-      <button class="btn btn-accent btn-lg" onclick="loadSemester()">Load</button>
+    <!-- AD: Top Leaderboard -->
+    <div class="ad-slot" aria-label="Advertisement">
+      <ins class="adsbygoogle" style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="AAAAAAAAAA"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <div class="p-6 bg-gray-50 shadow-xl rounded-xl">
-      <h3 id="result" class="text-2xl font-bold text-indigo-700"></h3>
-      <h4 id="credits" class="text-lg text-gray-700 mt-2"></h4>
-      <h4 id="failWarning" class="mt-2 font-semibold"></h4>
+    <!-- CALCULATOR CARD -->
+    <div class="card pattern-bg">
+      <div class="card-title">
+        <span class="card-title-dot" aria-hidden="true"></span>
+        Add Your Courses
+      </div>
+
+      <div class="template-row">
+        <div class="field-group">
+          <label class="field-label" for="tpl-name">Course Name</label>
+          <input id="tpl-name" type="text" placeholder="e.g. Business Communication" class="field-input" autocomplete="off" />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="tpl-credit">Credit</label>
+          <input id="tpl-credit" type="number" placeholder="3" min="0" max="6" step="0.5" class="field-input" />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="tpl-marks">Marks</label>
+          <div class="marks-wrap">
+            <input id="tpl-marks" type="number" placeholder="0–100" min="0" max="100" class="field-input" oninput="updateTemplateGrade(this)" />
+            <span id="tpl-grade" class="letter-badge" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="tpl-retake">Retake <small style="text-transform:none;font-weight:400;font-size:0.62rem">(optional)</small></label>
+          <input id="tpl-retake" type="number" placeholder="0–100" min="0" max="100" class="field-input" />
+        </div>
+      </div>
+
+      <div id="courses" role="list" aria-label="Added courses"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary"        onclick="addCourse()">＋ Add Course</button>
+        <button class="btn btn-success"        onclick="calculateCGPA()">⟳ Calculate CGPA</button>
+        <button class="btn btn-gold"           onclick="saveSemester()">💾 Save Semester</button>
+        <button class="btn btn-outline"        onclick="loadSemester()">📂 Load Saved</button>
+        <button class="btn btn-danger-outline" onclick="clearAll()">✕ Clear All</button>
+      </div>
+
+      <span class="grade-table-toggle" onclick="toggleGradeTable()" role="button" tabindex="0"
+        onkeydown="if(event.key==='Enter')toggleGradeTable()" id="gradeToggleBtn" aria-expanded="false">
+        📋 View BRAC University Grading Scale
+      </span>
+      <div class="grade-table" id="gradeTable" aria-hidden="true">
+        <table>
+          <thead><tr><th scope="col">Marks</th><th scope="col">Letter Grade</th><th scope="col">Grade Point</th><th scope="col">Remarks</th></tr></thead>
+          <tbody>
+            <tr><td>97–100</td><td>A+</td><td>4.00</td><td>Exceptional</td></tr>
+            <tr><td>90–96</td><td>A</td><td>4.00</td><td>Excellent</td></tr>
+            <tr><td>85–89</td><td>A−</td><td>3.70</td><td>Very Good</td></tr>
+            <tr><td>80–84</td><td>B+</td><td>3.30</td><td>Good</td></tr>
+            <tr><td>75–79</td><td>B</td><td>3.00</td><td>Good</td></tr>
+            <tr><td>70–74</td><td>B−</td><td>2.70</td><td>Fair</td></tr>
+            <tr><td>65–69</td><td>C+</td><td>2.30</td><td>Fair</td></tr>
+            <tr><td>60–64</td><td>C</td><td>2.00</td><td>Fair</td></tr>
+            <tr><td>57–59</td><td>C−</td><td>1.70</td><td>Poor</td></tr>
+            <tr><td>55–56</td><td>D+</td><td>1.30</td><td>Poor</td></tr>
+            <tr><td>52–54</td><td>D</td><td>1.00</td><td>Poor</td></tr>
+            <tr><td>50–51</td><td>D−</td><td>0.70</td><td>Poor</td></tr>
+            <tr><td>0–49</td><td>F</td><td>0.00</td><td style="color:#C0392B;font-weight:600">Fail</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <div class="p-6 bg-gray-200 text-center rounded-lg shadow-lg">
-      Ad Space (336x280)
+    <!-- RESULT CARD -->
+    <div class="result-card" id="resultCard" aria-live="polite" aria-atomic="true">
+      <div class="result-empty" id="resultEmpty">
+        <div class="result-empty-icon" aria-hidden="true">📊</div>
+        <p>Add your courses and click <strong>Calculate CGPA</strong> to see your results here.</p>
+      </div>
+      <div id="resultContent" style="display:none">
+        <div class="result-grade-badge" id="gradeBadge"></div>
+        <div class="result-grid">
+          <div class="result-stat gold">
+            <div class="result-stat-num" id="cgpaValue">—</div>
+            <div class="result-stat-label">CGPA</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-num" id="creditsEarned">—</div>
+            <div class="result-stat-label">Credits Earned</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-num" id="totalCredits">—</div>
+            <div class="result-stat-label">Total Credits</div>
+          </div>
+        </div>
+        <div id="failWarning"></div>
+      </div>
     </div>
 
-  </div>
-</main>
+    <!-- AD: Mid Rectangle -->
+    <div class="ad-slot ad-slot-lg" aria-label="Advertisement">
+      <ins class="adsbygoogle" style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="BBBBBBBBBB"
+           data-ad-format="rectangle"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
 
-<footer class="footer footer-center p-4 bg-neutral text-neutral-content mt-10">
-  <aside>
-    <p>Copyright © 2026 - All rights reserved</p>
-  </aside>
-</footer>
+    <!-- SEO CONTENT -->
+    <section class="seo-section" aria-label="About BRAC University CGPA Calculator">
+      <div class="card">
+        <h2>BRAC University CGPA Calculator – Bangladesh</h2>
+        <p>
+          This free <strong>BRAC University CGPA Calculator</strong> is built specifically for students of
+          <strong>BRAC University (BRACU)</strong>, one of Bangladesh's most prestigious private universities.
+          It uses BRAC University's official grading scale — from <strong>A+ (4.00)</strong> down to
+          <strong>D− (0.70)</strong> — to calculate your semester GPA and cumulative CGPA instantly and accurately.
+        </p>
+        <div class="seo-divider"></div>
+        <h3>How to Use This Calculator</h3>
+        <ul>
+          <li>Enter your <strong>course name</strong> (optional), <strong>credit hours</strong>, and <strong>marks</strong> in the fields above.</li>
+          <li>If you have a <strong>retake</strong>, enter those marks in the Retake column — the calculator uses them automatically.</li>
+          <li>Click <strong>Add Course</strong> to add more courses, or click <strong>Calculate CGPA</strong> directly.</li>
+          <li>Your CGPA, earned credits, and any failed course warnings appear instantly in the result section below.</li>
+          <li>Use <strong>Save Semester</strong> to store your courses in the browser for future use.</li>
+        </ul>
+        <div class="seo-divider"></div>
+        <h3>BRAC University Grading System Explained</h3>
+        <p>
+          BRAC University uses a detailed <strong>13-level letter grade system on a 4.0 scale</strong>.
+          Unlike many universities, BRAC's scale goes all the way down to <strong>D− (0.70)</strong>
+          for marks of 50–51, meaning students who score 50 or above are not considered failed.
+          Any marks below 50 result in an <strong>F (0.00 — Fail)</strong>.
+        </p>
+        <p>
+          Both <strong>A+ and A</strong> carry the same grade point of <strong>4.00</strong> at BRAC University —
+          A+ is awarded for 97–100 marks (Exceptional) while A covers 90–96 (Excellent).
+          Failed courses count toward total attempted credits but receive zero grade points, which brings down your CGPA.
+        </p>
+      </div>
+    </section>
 
+    <!-- FAQ -->
+    <section class="seo-section" aria-label="Frequently Asked Questions">
+      <div class="card">
+        <h2 style="margin-bottom:1.2rem">Frequently Asked Questions</h2>
 
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>What grading scale does BRAC University use?</span>
+            <span class="faq-icon" aria-hidden="true">＋</span>
+          </button>
+          <div class="faq-answer">
+            <p>BRAC University uses a 13-level letter grade system on a 4.0 scale. Marks of 97–100 earn an A+ (4.00), marks of 90–96 earn an A (4.00), and marks below 50 result in an F (0.00 — Fail). The lowest passing grade is D− (0.70) for marks of 50–51.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>How is BRAC University CGPA calculated?</span>
+            <span class="faq-icon" aria-hidden="true">＋</span>
+          </button>
+          <div class="faq-answer">
+            <p>BRAC University CGPA = Sum of (Grade Point × Credit Hours) ÷ Total Credit Hours Attempted. Failed courses (F grade) earn 0.00 grade points but still count as attempted credits, which lowers your overall CGPA.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>What is the minimum passing marks at BRAC University?</span>
+            <span class="faq-icon" aria-hidden="true">＋</span>
+          </button>
+          <div class="faq-answer">
+            <p>The minimum passing marks at BRAC University is 50, which earns a D− grade (0.70 grade point). Any marks below 50 result in an F (Fail). However, many programs require a minimum of C grade in core or prerequisite courses.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>Do both A+ and A have the same grade point at BRAC?</span>
+            <span class="faq-icon" aria-hidden="true">＋</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes. At BRAC University, both A+ (97–100 marks) and A (90–96 marks) carry a grade point of 4.00. The distinction is honorary — A+ is labeled "Exceptional" while A is "Excellent" — but both contribute equally to your CGPA calculation.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>What is a good CGPA at BRAC University?</span>
+            <span class="faq-icon" aria-hidden="true">＋</span>
+          </button>
+          <div class="faq-answer">
+            <p>A CGPA of 3.70 or above is considered excellent at BRAC University. A CGPA of 3.00–3.69 is good, 2.50–2.99 is satisfactory, and the minimum required to remain in good academic standing is generally 2.00.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- AD: Bottom Banner -->
+    <div class="ad-slot" style="margin-top:2rem" aria-label="Advertisement">
+      <ins class="adsbygoogle" style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="CCCCCCCCCC"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-brand">BD<span>CGPA</span></div>
+      <div class="footer-copy">© <span id="year"></span> BDCGPA — All rights reserved</div>
+    </div>
+    <nav class="footer-links" aria-label="Footer links">
+      <a href="index.html">Home</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Contact</a>
+    </nav>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script src="js/brac.js"></script>
 
 </body>
 </html>

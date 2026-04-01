@@ -1,97 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIUB CGPA Calculator – Bangladesh</title>
-<meta name="description" content="Premium AIUB CGPA Calculator with retake support, fail warnings, earned credits, and responsive design.">
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="aiub.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/daisyui@3.2.2/dist/full.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIUB University CGPA Calculator – Bangladesh</title>
+  
+  <meta name="description" content="Premium AIUB University CGPA Calculator with retake support, fail warnings, earned credits, and full-width inputs. Fully responsive and SEO-friendly." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style/style.css">
+  <script src="js\aiub.js" defer></script>
+  
+  
 </head>
+<body>
 
-<body class="bg-gray-100 font-sans">
+  <!-- NAVBAR -->
+  <nav>
+    <a class="nav-brand" href="index.html">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 13.5L4.21 12 3 12.73V17c0 1.66 4.03 3 9 3s9-1.34 9-3v-4.27l-1.21-.73L12 16.5z"/></svg>
+      </div>
+      <div class="nav-logo-text">BD<span>CGPA</span></div>
+    </a>
+    <a class="nav-back" href="index.html">← All Universities</a>
+  </nav>
 
-<!-- Header -->
-<header class="relative w-full h-40 md:h-56 overflow-hidden rounded-b-3xl shadow-lg">
-  <img src="images/aiub.jpg" alt="AIUB Banner" class="w-full h-full object-cover">
-  <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-    <h1 class="text-white text-2xl md:text-4xl font-bold">
-      AIUB CGPA Calculator
-    </h1>
-  </div>
-</header>
+  <!-- HERO BANNER -->
+  <section class="hero">
+    <img class="hero-img" src="images/aiub.jpg" alt="AIUB University Bangladesh" onerror="this.style.display='none'" />
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🎓 Official Grading System</div>
+      <h1 class="hero-title">AIUB University<br><em>CGPA Calculator</em></h1>
+      <p class="hero-sub">Bangladesh · Accurate · Free · Instant Results</p>
+    </div>
+  </section>
 
-<!-- Main Section -->
-<main class="relative max-w-5xl mx-auto mt-6 px-4">
+  <!-- MAIN -->
+  <main class="main">
 
-  <!-- Background Texture -->
-  <div class="absolute inset-0 bg-[url('images/222.png')] bg-cover bg-center opacity-10 rounded-3xl"></div>
+    <!-- Ad Top -->
+    <div class="ad-slot">Advertisement · 728×90</div>
 
-  <!-- Content Wrapper -->
-  <div class="relative space-y-6">
+    <!-- COURSE ENTRY CARD -->
+    <div class="card pattern-bg">
+      <div class="card-title">
+        <span class="card-title-dot"></span>
+        Add Your Courses
+      </div>
 
-    <!-- Top Ad -->
-    <div class="p-4 bg-gray-200 text-center rounded-lg shadow-lg">
-      Ad Space (728x90)
+      <!-- Template / First row inputs -->
+      <div class="template-row">
+        <div class="field-group">
+          <label class="field-label">Course Name</label>
+          <input id="tpl-name" type="text" placeholder="e.g. Mathematics I" class="field-input" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Credit</label>
+          <input id="tpl-credit" type="number" placeholder="3" min="0" max="6" class="field-input" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Marks</label>
+          <div class="marks-wrap">
+            <input id="tpl-marks" type="number" placeholder="0–100" min="0" max="100" class="field-input"
+              oninput="updateTemplateGrade(this)" />
+            <span id="tpl-grade" class="letter-badge"></span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Retake Marks <span style="font-weight:400;text-transform:none;font-size:0.62rem">(optional)</span></label>
+          <input id="tpl-retake" type="number" placeholder="0–100" min="0" max="100" class="field-input" />
+        </div>
+      </div>
+
+      <!-- Dynamic course list -->
+      <div id="courses"></div>
+
+      <!-- Buttons -->
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="addCourse()">＋ Add Course</button>
+        <button class="btn btn-success" onclick="calculateCGPA()">⟳ Calculate CGPA</button>
+        <button class="btn btn-gold" onclick="saveSemester()">💾 Save Semester</button>
+        <button class="btn btn-outline" onclick="loadSemester()">📂 Load Saved</button>
+        <button class="btn btn-outline" onclick="clearAll()" style="color:#c0392b;border-color:rgba(192,57,43,0.3)">✕ Clear All</button>
+      </div>
+
+      <!-- Grade table toggle -->
+      <span class="grade-table-toggle" onclick="toggleGradeTable()">📋 View NU Grading Scale</span>
+      <div class="grade-table" id="gradeTable">
+        <table>
+          <thead>
+            <tr><th>Marks</th><th>Letter Grade</th><th>Grade Point</th><th>Remarks</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>90–100</td><td>A+</td><td>4.00</td><td>Outstanding</td></tr>
+            <tr><td>85–89</td><td>A</td><td>3.75</td><td>Excellent</td></tr>
+            <tr><td>80–84</td><td>B+</td><td>3.50</td><td>Very Good</td></tr>
+            <tr><td>75–79</td><td>B</td><td>3.25</td><td>Good</td></tr>
+            <tr><td>70–74</td><td>C+</td><td>3.00</td><td>Satisfactory</td></tr>
+            <tr><td>65–69</td><td>C</td><td>2.75</td><td>Above Average</td></tr>
+            <tr><td>60–64</td><td>D+</td><td>2.50</td><td>Average</td></tr>
+            <tr><td>50–59</td><td>D</td><td>2.25</td><td>Below Average</td></tr>
+            <tr><td>0–49</td><td>F</td><td>0.00</td><td style="color:var(--danger)">Fail</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <!-- Course Container -->
-    <div id="courses" class="space-y-4">
-      
-    </div>
-     <div class="card card-body bg-white shadow-xl rounded-2xl flex flex-wrap gap-4">
-      <input placeholder="Course Name (Optional)" 
-    class="input input-bordered w-full md:w-1/2">
-
-    <input type="number" placeholder="Credit" 
-    class="credit input input-bordered w-full md:w-1/6">
-
-    <div class="w-full md:w-1/6 flex items-center gap-2">
-      <input type="number" placeholder="Marks" 
-      class="marks input input-bordered flex-1"
-      oninput="detectLetter(this)">
-      <span class="detected font-semibold text-indigo-700"></span>
-    </div>
-
-    <input type="number" placeholder="Retake Marks (Optional)" 
-    class="retake input input-bordered w-full md:w-1/6">
-    </div>
-    
-
-    <!-- Buttons -->
-    <div class="flex flex-wrap gap-3">
-      <button class="btn btn-primary btn-lg" onclick="addCourse()">+ Add Course</button>
-      <button class="btn btn-success btn-lg" onclick="calculateCGPA()">Calculate CGPA</button>
-      <button class="btn btn-warning btn-lg" onclick="saveSemester()">Save</button>
-      <button class="btn btn-accent btn-lg" onclick="loadSemester()">Load</button>
-    </div>
-   
-
-    <!-- Result Card -->
-    <div class="p-6 bg-gray-50 shadow-xl rounded-xl">
-      <h3 id="result" class="text-2xl font-bold text-indigo-700"></h3>
-      <h4 id="credits" class="text-lg text-gray-700 mt-2"></h4>
-      <h4 id="failWarning" class="mt-2 font-semibold"></h4>
+    <!-- RESULT CARD -->
+    <div class="result-card" id="resultCard">
+      <div class="result-empty" id="resultEmpty">
+        <div class="result-empty-icon">📊</div>
+        <p>Add your courses and click <strong>Calculate CGPA</strong> to see your results here.</p>
+      </div>
+      <div id="resultContent" style="display:none">
+        <div class="result-grade-badge" id="gradeBadge"></div>
+        <div class="result-grid">
+          <div class="result-stat gold">
+            <div class="result-stat-num" id="cgpaValue">—</div>
+            <div class="result-stat-label">CGPA</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-num" id="creditsEarned">—</div>
+            <div class="result-stat-label">Credits Earned</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-num" id="totalCredits">—</div>
+            <div class="result-stat-label">Total Credits</div>
+          </div>
+        </div>
+        <div id="failWarning"></div>
+      </div>
     </div>
 
-    <!-- Bottom Ad -->
-    <div class="p-6 bg-gray-200 text-center rounded-lg shadow-lg">
-      Ad Space (336x280)
+    <!-- Ad Bottom -->
+    <div class="ad-slot" style="margin-top:2rem">Advertisement · 336×280</div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-brand">BD<span>CGPA</span></div>
+      <div class="footer-copy">© <span id="year"></span> BDCGPA — All rights reserved</div>
     </div>
+  </footer>
 
-  </div>
-</main>
-
-<!-- Footer -->
-<footer class="footer footer-center p-4 bg-neutral text-neutral-content mt-10">
-  <aside>
-    <p>Copyright © 2026 - All right reserved</p>
-  </aside>
-</footer>
-
-<!-- JavaScript -->
-
-
+  
 </body>
 </html>
